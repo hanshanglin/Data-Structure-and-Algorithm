@@ -3,7 +3,7 @@ using namespace std;
 template <class T>
 class Node
 {
-  public:
+public:
     T value;
     Node *next;
     Node(T value, Node *next)
@@ -17,10 +17,10 @@ class Node
 template <class T>
 class LinkedList
 {
-  private:
+private:
     Node<T> *head;
 
-  public:
+public:
     LinkedList()
     {
         head = nullptr;
@@ -47,6 +47,20 @@ class LinkedList
             cur = cur->next;
         }
         cout << "null" << endl;
+    }
+
+    Node* search(T key)
+    {
+        if (head == nullptr)
+            return false;
+        Node *cur = head;
+        while (cur != nullptr)
+        {
+            if (cur->value == key)
+                return cur;
+            cur = cur->next;
+        }
+        return nullptr;
     }
 
     bool delet(T key)
