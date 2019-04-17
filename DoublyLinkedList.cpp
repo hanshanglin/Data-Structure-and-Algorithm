@@ -1,4 +1,5 @@
 #include <iostream>
+using namespace std;
 template <class T>
 class Node
 {
@@ -6,7 +7,7 @@ public:
     T value;
     Node *next;
     Node *prev;
-    Node(T value, Node *next, Node *prev)
+    Node(T value, Node *prev, Node *next)
     {
         this->value = value;
         this->next = next;
@@ -19,23 +20,34 @@ template <class T>
 class DoublyLinkedList
 {
 private:
-    Node* sentinel;
+    Node<T>* sentinel;
 public:
     DoublyLinkedList(){
-        sentinel = new Node();
+        sentinel = new Node<T>(-1,nullptr,nullptr);
         sentinel->next = sentinel;
         sentinel->prev = sentinel;
     }
 
     void insert(T value){
         //add at end
-        Node *newNode = new Node(value, sentinel->prev, sentinel);
+        Node<T> *newNode = new Node<T>(value, sentinel->prev, sentinel);
         sentinel->prev->next = newNode;
         sentinel->prev = newNode;
     }
 
-    bool insert(T key){
-        Node *cur = search(key);
+    void print(){
+        Node<T> *cur = sentinel->next;
+        while (cur!= sentinel)
+        {
+            cout << cur->value << " <==> ";
+            cur = cur->next;
+        }
+        cout << endl;
+        return;
+    }
+
+    bool delet(T key){
+        Node<T> *cur = search(key);
         if (cur==nullptr)
             return false;
         cur->prev->next = cur->next;
@@ -44,11 +56,11 @@ public:
         return true;
     }
 
-    Node* search(T key){
+    Node<T>* search(T key){
         // set sentinel's value to key
         sentinel->value = key;
-        Node *cur = sentinel->next;
-        while (cur->value.equal(key))
+        Node<T> *cur = sentinel->next;
+        while (cur->value!=key)
             cur = cur->next;
         if(cur == sentinel)
             return nullptr;
